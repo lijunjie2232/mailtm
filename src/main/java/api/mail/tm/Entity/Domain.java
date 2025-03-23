@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-class Domain {
+public class Domain {
     @SerializedName("@id")
     private String id;
 

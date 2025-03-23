@@ -5,26 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class DomainResponse implements Response {
-    @SerializedName("@context")
-    private String context;
-
+@NoArgsConstructor
+class HydraView {
     @SerializedName("@id")
     private String id;
 
     @SerializedName("@type")
     private String type;
 
-    @SerializedName("hydra:totalItems")
-    private int totalItems;
+    @SerializedName("hydra:first")
+    private String first;
 
-    @SerializedName("hydra:member")
-    private List<Domain> member;
+    @SerializedName("hydra:last")
+    private String last;
 
+    @SerializedName("hydra:previous")
+    private String previous;
+
+    @SerializedName("hydra:next")
+    private String next;
 }
-

@@ -5,26 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DomainResponse implements Response {
-    @SerializedName("@context")
-    private String context;
-
-    @SerializedName("@id")
-    private String id;
-
-    @SerializedName("@type")
-    private String type;
+public class MessagesResponse implements Response {
+    @SerializedName("hydra:member")
+    private List<Message> member;
 
     @SerializedName("hydra:totalItems")
     private int totalItems;
 
-    @SerializedName("hydra:member")
-    private List<Domain> member;
+    @SerializedName("hydra:view")
+    private HydraView view;
 
+    @SerializedName("hydra:search")
+    private HydraSearch search;
 }
 

@@ -1,21 +1,21 @@
 package api.mail.tm;
 
-import api.mail.tm.Entity.Account;
-import api.mail.tm.Entity.DomainResponse;
+import api.mail.tm.Entity.*;
+import api.mail.tm.service.AccountService;
+import api.mail.tm.service.DomainService;
 import api.mail.tm.utils.HttpOkUtil;
 import api.mail.tm.utils.RandomUtil;
+import com.google.gson.Gson;
+import okhttp3.Response;
 import org.junit.jupiter.api.Test;
 
 public class AccountTest {
 
-    HttpOkUtil httpOkUtil = new HttpOkUtil();
-    Account accoutn;
-
-
     @Test
-    void createAccount() throws Exception {
-        DomainResponse domainResponse =
-        accoutn = new Account(RandomUtil.getName(12);+"@test.com","123456");
-
+    void accountServiceTest() throws Exception {
+        Account account = new Account("aflwajfnbic1@indigobook.com", "123321");
+        AccountService as = new AccountService(account);
+        System.out.println(as.getToken());
+//        System.out.println(as.getAccounts());
     }
 }

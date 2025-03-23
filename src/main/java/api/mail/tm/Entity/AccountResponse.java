@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountResponse {
+public class AccountResponse implements Response {
     @SerializedName("@context")
     private String context;
 

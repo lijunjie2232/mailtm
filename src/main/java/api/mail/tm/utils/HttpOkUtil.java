@@ -6,32 +6,42 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class HttpOkUtil {
 
-    private static final OkHttpClient client = new OkHttpClient.Builder()
-            .cookieJar(new CookieJar() {
-                private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
+    private Map<String, String> headers = new HashMap<>();
 
-                @Override
-                public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-                    cookieStore.put(url, cookies);
-                }
+    private static final OkHttpClient client = new OkHttpClient.Builder().cookieJar(new CookieJar() {
+        private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
 
-                @Override
-                public List<Cookie> loadForRequest(HttpUrl url) {
-                    List<Cookie> cookies = cookieStore.get(url);
-                    return cookies != null ? cookies : new ArrayList<>();
-                }
-            })
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .build();
+        @Override
+        public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+            cookieStore.put(url, cookies);
+        }
 
-    public static String get(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
+        @Override
+        public List<Cookie> loadForRequest(HttpUrl url) {
+            List<Cookie> cookies = cookieStore.get(url);
+            return cookies != null ? cookies : new ArrayList<>();
+        }
+    }).connectTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).build();
+
+    public void setHeader(String key, String value) {
+        headers.put(key, value);
+    }
+
+    public String getHeader(String key) {
+        return headers.get(key);
+    }
+
+    public void deleteHeader(String key) {
+        headers.remove(key);
+    }
+
+    public String get(String url) throws IOException {
+        Request request = new Request.Builder().url(url).headers(Headers.of(headers)) // 添加 headers
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -41,12 +51,10 @@ public class HttpOkUtil {
         }
     }
 
-    public static String post(String url, String json) throws IOException {
+    public String post(String url, String json) throws IOException {
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(json, JSON);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
+        Request request = new Request.Builder().url(url).post(body).headers(Headers.of(headers)) // 添加 headers
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -55,18 +63,31 @@ public class HttpOkUtil {
             return response.body().string();
         }
     }
+    public Response post(String url, String json, Class clazz) throws IOException {
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(json, JSON);
+        Request request = new Request.Builder().url(url).post(body).headers(Headers.of(headers)) // 添加 headers
+                .build();
 
-    public static void main(String[] args) {
-        try {
-            // Example GET request
-            String getResponse = get("https://httpbin.org/get");
-            System.out.println("GET Response: " + getResponse);
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            // Example POST request
-            String postResponse = post("https://httpbin.org/post", "{\"key\":\"value\"}");
-            System.out.println("POST Response: " + postResponse);
-        } catch (IOException e) {
-            e.printStackTrace();
+//            return response.body().string();
+            return new gson().fromJson(response.body().string(), clazz);
+        }
+    }
+
+    public Boolean delete(String url) throws IOException {
+        Request request = new Request.Builder().url(url).delete().headers(Headers.of(headers)) // 添加 headers
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            if (response.code() == 204) {
+//                System.out.println("删除成功");
+                return true;
+            } else {
+                System.out.println("delete return with code " + response.code());
+                return false;
+            }
         }
     }
 }
