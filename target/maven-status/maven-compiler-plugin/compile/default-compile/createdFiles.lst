@@ -1,0 +1,5 @@
+api\mail\tm\Entity\DomainCollection.class
+api\mail\tm\Entity\Domain.class
+api\mail\tm\utils\HttpOkUtil$1.class
+api\mail\tm\utils\HttpOkUtil.class
+api\mail\tm\TM.class

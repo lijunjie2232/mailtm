@@ -1,2 +1,3 @@
-D:\code\java\mailtm\mail-tm-api\src\main\java\api\mail\tm\App.java
-D:\code\java\mailtm\mail-tm-api\src\main\java\api\mail\tm\utils\HttpokUtil.java
+D:\code\java\mailtm\mail-tm-api\src\main\java\api\mail\tm\Entity\DomainCollection.java
+D:\code\java\mailtm\mail-tm-api\src\main\java\api\mail\tm\TM.java
+D:\code\java\mailtm\mail-tm-api\src\main\java\api\mail\tm\utils\HttpOkUtil.java
