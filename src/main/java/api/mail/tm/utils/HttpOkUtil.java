@@ -1,6 +1,5 @@
 package api.mail.tm.utils;
 
-import api.mail.tm.Entity.ErrorResponse;
 import com.google.gson.Gson;
 import okhttp3.*;
 
