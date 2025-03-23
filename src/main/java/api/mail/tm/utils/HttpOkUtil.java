@@ -1,5 +1,7 @@
 package api.mail.tm.utils;
 
+import api.mail.tm.Entity.ErrorResponse;
+import com.google.gson.Gson;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class HttpOkUtil {
 
     private Map<String, String> headers = new HashMap<>();
+    private final Gson gson = new Gson();
 
     private static final OkHttpClient client = new OkHttpClient.Builder().cookieJar(new CookieJar() {
         private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
@@ -63,19 +66,7 @@ public class HttpOkUtil {
             return response.body().string();
         }
     }
-    public Response post(String url, String json, Class clazz) throws IOException {
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        RequestBody body = RequestBody.create(json, JSON);
-        Request request = new Request.Builder().url(url).post(body).headers(Headers.of(headers)) // 添加 headers
-                .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-//            return response.body().string();
-            return new gson().fromJson(response.body().string(), clazz);
-        }
-    }
 
     public Boolean delete(String url) throws IOException {
         Request request = new Request.Builder().url(url).delete().headers(Headers.of(headers)) // 添加 headers

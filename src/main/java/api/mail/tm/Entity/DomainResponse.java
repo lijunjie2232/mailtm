@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DomainResponse implements Response {
+public class DomainResponse {
     @SerializedName("@context")
     private String context;
 

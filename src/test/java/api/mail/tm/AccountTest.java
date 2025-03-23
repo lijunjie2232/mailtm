@@ -16,6 +16,9 @@ public class AccountTest {
         Account account = new Account("aflwajfnbic1@indigobook.com", "123321");
         AccountService as = new AccountService(account);
         System.out.println(as.getToken());
+        System.out.println(as.refreshAccountInfo());
+        System.out.println(as.getAccountInfo());
+
 //        System.out.println(as.getAccounts());
     }
 }
